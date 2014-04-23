@@ -1,0 +1,24 @@
+.column
+{
+    width: 960px;
+}
+
+.column2
+{
+    width: 650px;
+}
+
+.column, .column2
+{
+    margin: 0 20px 10px 0;
+    float: left;
+    display: block;
+}
+
+.line
+{
+    position: absolute;
+    border-style: none none none solid;
+    border-width: 1px;
+    padding-left: 3px;
+}
