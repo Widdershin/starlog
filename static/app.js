@@ -64,41 +64,52 @@ $(document).ready(function () {
         $.getJSON('/streams', function ( data ) {
             var min_timestamp = data["range"][0];
             var max_timestamp = data["range"][1];
+            var streams = data["streams"];
+            
+            for (stream_name in streams)
+            {
+                var lines = streams[stream_name];
+                var column = createElement("div", "column2 selectable");
+                var container = document.getElementByID("container");
 
-            $.each( data["streams"], function ( stream_name, lines ){
-                $column = $('<div class="column2 selectable"></div>');
-                $(".container").append($column);
-                $column.append("<h3>" + stream_name + "</h3>");
+                container.appendChild(column);
 
-                $.each( lines, function (i, line) {
+                var header = document.createElement("H3");
+                header.innerHTML = stream_name;
+                column.appendChild(header);
+
+                for (line in lines)
+                {
                     var timestamp = line[0];
                     var text = line[1];
+                    
                     var position = (timestamp - min_timestamp) / (max_timestamp - min_timestamp);
 
                     var $line_div = $('<div class="line">' + text + "</div>");
 
-                    $line_div.data("position", position);
+                    $line_div.dataset["position"] = position;
                     $column.append($line_div);
-                });
+                }
                 zoom(20000);
-            });
+            }
         });
     }
 
     function zoom(how_big)
     {
-        $('.line').each( function ( index ) {
-            var $this = $(this);
-            var height = $this.height();
-            var new_position = $this.data("position") * how_big + 100;
-            var above_line_pos = parseFloat($this.prev().css("top"));
+        var lines = document.querySelectorAll('.line');
+        lines.forEach( function ( line ) {
+            
+            var height = line.offsetHeight;
+            var newPosition = line.dataset["position"] * how_big + 100;
+            // var above_line_pos = parseFloat($this.prev().css("top"));
 
-            if ((new_position - above_line_pos) < height)
-            {
-                new_position = above_line_pos + height;
-            }
+            // if ((new_position - above_line_pos) < height)
+            // {
+            //     new_position = above_line_pos + height;
+            // }
 
-            $this.css({"top": new_position + "px"});
+            line.style.top = newPosition + "px";
         });
     }
 
@@ -114,5 +125,13 @@ $(document).ready(function () {
         console.log("Zooming " + zoomChange)
 
         zoom(zoomLevel);
+    }
+
+    function createElement(element, class)
+    {
+        newElement = document.createElement(element);
+        newElement.className = class;
+
+        return newElement;
     }
 });

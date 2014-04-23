@@ -13,7 +13,8 @@ Stream = namedtuple("Stream", ["name", "lines"])
 
 
 LOG_DIR = \
-    r"C:\workspaces\Workspaces\60957 - BeeJay jadloadb disappears"
+    r"logs/"
+    #r"C:\workspaces\Workspaces\60957 - BeeJay jadloadb disappears"
     #r"C:\workspaces\Workspaces\61202 - Joel Langley Thinclient Disconnects"
     #r"C:\workspaces\Workspaces\61160 - Hiren Thinclient Connection\JADE_61160"
     #r"C:\Jade\6309-a64\logs"
